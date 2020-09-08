@@ -1,2 +1,2 @@
 # MariaDB
-MariaDB
+MariaDB configuration example

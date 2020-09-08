@@ -1,0 +1,55 @@
+# This group is only read by MariaDB servers, not by MySQL.
+# If you use the same .cnf file for MySQL and MariaDB,
+# you can put MariaDB-only options here
+[mariadb]
+
+#
+#    Description: If set to 0, the default unless the --general-log option is used, the general query log is disabled, while if set to 1, the general query log is enabled. See log_output for how log files are written. If that variable is set to NONE, no logs will be written even if general_query_log is set to 1.
+#    Commandline: --general-log
+#    Scope: Global
+#    Dynamic: Yes
+#    Data Type: boolean
+#    Default Value: 0
+#
+general_log=0
+
+#
+#    Description: Name of the general query log file. If this is not specified, the name is taken from the log-basename setting or from your system hostname with .log as a suffix.
+#    Commandline: --general-log-file=file_name
+#    Scope: Global
+#    Dynamic: Yes
+#    Data Type: file name
+#    Default Value: host_name.log
+#
+general_log_file=/var/log/mariadb/general.log
+
+#
+#    Description: If set to 0, the default unless the --slow-query-log option is used, the slow query log is disabled, while if set to 1 (both global and session variables), the slow query log is enabled. MariaDB 10.1 added support for session variables.
+#    Commandline: --slow-query-log
+#    Scope: Global, Session (MariaDB 10.1)
+#    Dynamic: Yes
+#    Data Type: boolean
+#    Default Value: 0
+#    See also: See log_output to see how log files are written. If that variable is set to NONE, no logs will be written even if slow_query_log is set to 1.
+#
+slow_query_log=1
+
+#
+#    Description: Name of the slow query log file.
+#    Commandline: --slow-query-log-file=file_name
+#    Scope: Global
+#    Dynamic: Yes
+#    Data Type: file name
+#    Default Value: host_name-slow.log
+#
+slow_query_log_file=/var/log/mariadb/slow.log
+
+#
+#    Description: Specifies the name of the error log. If --console is specified later in the configuration (Windows only) or this option isn't specified, errors will be logged to stderr. If no name is provided, errors will still be logged to hostname.err.
+#    Commandline: --log-error[=name]
+#    Scope: Global
+#    Dynamic: No
+#    Data Type: file name
+#    Default Value: (empty string)
+#
+log_error=/var/log/mariadb/error.log

@@ -1,0 +1,117 @@
+# this is only for the mysqld standalone daemon
+[mysqld]
+
+# Optimizing usage of cached data by
+# SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'; for getting number of tables and
+# show global status like '%Threads_connected%'; for getting threads.
+# Then optimal amount of cache is: (threads) * (number of tables) / 2
+table_open_cache=16383
+
+# Next, we need to optimize the number of files opened
+# it is table_open_cache * 2
+open_files_limit=32768
+
+#
+# MEMORY CONSUMPTION:
+# innodb_buffer_pool_size + key_buffer_size + max_connections * (sort_buffer_size + read_buffer_size + binlog_cache_size) + max_connections * 2097152
+# 1073741824              + 8388608         + 256             * (262144           + 131072           + 32768)             + 256             * 2097152 = 1728053248 = 1,609375 GB
+#
+
+#
+#    Description: The maximum number of simultaneous client connections. See also Handling Too Many Connections. Note that this value affects the number of file descriptors required on the operating system.
+#    Commandline: --max-connections=#
+#    Scope: Global
+#    Dynamic: Yes
+#    Data Type: numeric
+#    Default Value: 151
+#    Range: 1 to 100000
+#
+max_connections=256
+
+#
+#    Description: Time in seconds that the server waits for a connect packet before returning a 'Bad handshake'. Increasing may help if clients regularly encounter 'Lost connection to MySQL server at 'X', system error: error_number' type-errors
+#    Commandline: --connect-timeout=#
+#    Scope: Global
+#    Dynamic: Yes
+#    Type: numeric
+#    Default Value: 10
+#
+connect_timeout=600
+
+#
+#    Description: Time in seconds the server will wait for a client connection to send more data before aborting the read. See also net_write_timeout and slave_net_timeout
+#    Commandline: --net-read-timeout=#
+#    Scope: Global, Session
+#    Dynamic: Yes
+#    Data Type: numeric
+#    Default Value: 30
+#    Range: 1 upwards
+#
+net_read_timeout=600
+
+#
+#    Description: Time in seconds to wait on writing a block to a connection before aborting the write. See also net_read_timeout and slave_net_timeout.
+#    Commandline: --net-write-timeout=#
+#    Scope: Global, Session
+#    Dynamic: Yes
+#    Data Type: numeric
+#    Default Value: 60
+#    Range: 1 upwards
+#
+net_write_timeout=600
+
+#
+#    Description: Maximum size in bytes of a packet or a generated/intermediate string. The packet message buffer is initialized with the value from net_buffer_length, but can grow up to max_allowed_packet bytes. Set as large as the largest BLOB, in multiples of 1024. If this value is changed, it should be changed on the client side as well. See slave_max_allowed_packet for a specific limit for replication purposes.
+#    Commandline: --max-allowed-packet=#
+#    Scope: Global
+#    Dynamic: Yes
+#    Data Type: numeric
+#    Default Value:
+#        16777216 (16M) >= MariaDB 10.2.4
+#        4194304 (4M) >= MariaDB 10.1.7
+#        1048576 (1MB) <= MariaDB 10.1.6
+#        1073741824 (1GB) (client-side)
+#    Range: 1024 to 1073741824
+#
+max_allowed_packet=32M
+
+#
+#    In MySQL 5.6.6 and later, this variable sets the maximum packet size for the
+#    slave SQL and I/O threads, so that large updates using row-based replication
+#    do not cause replication to fail because an update exceeded
+#    max_allowed_packet.
+#
+#    This global variable always has a value that is a positive integer multiple
+#    of 1024; if you set it to some value that is not, the value is rounded down
+#    to the next highest multiple of 1024 for it is stored or used;
+#    setting slave_max_allowed_packet to 0 causes 1024 to be used.
+#    (A truncation warning is issued in all such cases.) The default and maximum
+#    value is 1073741824 (1 GB); the minimum is 1024.
+#
+#
+#    slave_max_allowed_packet can also be set at startup,
+#    using the --slave-max-allowed-packet option.
+#
+slave_max_allowed_packet=32M
+
+#
+#    Description: Time in seconds that the server waits for an interactive connection (one that connects with the mysql_real_connect() CLIENT_INTERACTIVE option) to become active before closing it. See also wait_timeout.
+#    Commandline: --interactive-timeout=#
+#    Scope: Global, Session
+#    Dynamic: Yes
+#    Data Type: numeric
+#    Default Value: 28800
+#    Minimum Value: 1
+#
+interactive_timeout=31536000
+
+#
+#    Description: Time in seconds that the server waits for a connection to become active before closing it. The session value is initialized when a thread starts up from either the global value, if the connection is non-interactive, or from the interactive_timeout value, if the connection is interactive.
+#    Commandline: --wait-timeout=#
+#    Scope: Global, Session
+#    Dynamic: Yes
+#    Type: numeric
+#    Default Value: 28800
+#    Range: 1 to 2147483
+#
+wait_timeout=31536000

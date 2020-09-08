@@ -1,0 +1,57 @@
+# this is only for the mysqld standalone daemon
+[mysqld]
+
+#
+#    Description: If set to 1, new XtraDB/InnoDB tables are created with data and indexes stored in their own .ibd file. If set to 0, the default, new tables are created in the system tablespace. Compression is only available with per table storage. Note that this value is also used when a table is re-created with an ALTER TABLE which requires a table copy.
+#    Commandline: --innodb-file-per-table
+#    Scope: Global
+#    Dynamic: Yes
+#    Data Type: boolean
+#    Default Value: ON (>= MariaDB 5.5), OFF (<= MariaDB 5.3)
+#
+innodb_file_per_table=on
+
+#
+#    Description: InnoDB buffer pool size in bytes. The primary value to adjust on a database server with entirely/primarily XtraDB/InnoDB tables, can be set up to 80% of the total memory in these environments. If set to 2 GB or more, you will probably want to adjust innodb_buffer_pool_instances as well. See the XtraDB/InnoDB Buffer Pool for more on setting this variable, and also Setting Innodb Buffer Pool Size Dynamically if doing so dynamically.
+#    Commandline: --innodb-buffer-pool-size=#
+#    Scope: Global
+#    Dynamic: Yes (>= MariaDB 10.2.2), No (<= MariaDB 10.2.1)
+#    Data Type: numeric
+#    Default Value: 134217728 (128MB)
+#    Range: 5242880 (5MB) to 9223372036854775807 (8192PB)
+#
+innodb_buffer_pool_size=1G
+
+#
+#    Description: If innodb_buffer_pool_size is set to more than 1GB, innodb_buffer_pool_instances divides the InnoDB buffer pool into this many instances. The default was 1 in MariaDB 5.5, but for large systems with buffer pools of many gigabytes, many instances can help reduce contention concurrency. The default is 8 in MariaDB 10 (except on Windows 32-bit, where it varies according to innodb_buffer_pool_size, or from MariaDB 10.2.2, where it is set to 1 if innodb_buffer_pool_size < 1GB). Each instance manages its own data structures and takes an equal portion of the total buffer pool size, so for example if innodb_buffer_pool_size is 4GB and innodb_buffer_pool_instances is set to 4, each instance will be 1GB. Each instance should ideally be at least 1GB in size.
+#    Commandline: --innodb-buffer-pool-instances=#
+#    Scope: Global
+#    Dynamic: No
+#    Data Type: numeric
+#    Default Value: <= MariaDB 10.0.3: 1
+#    Default Value: >= MariaDB 10.0.4: 8, 1 (>= MariaDB 10.2.2 if innodb_buffer_pool_size < 1GB), or dependent on innodb_buffer_pool_size (Windows 32-bit)
+#    Introduced: MariaDB 5.5.20
+#
+innodb_buffer_pool_instances=8
+
+#
+#    Description: Size in bytes of each log file in the log group. The combined size can be no more than 4GB prior to MariaDB 10.0, and no more than 512GB in MariaDB 10.0 and later. Larger values mean less disk I/O due to less flushing checkpoint activity, but also slower recovery from a crash.
+#    Commandline: --innodb-log-file-size=#
+#    Scope: Global
+#    Dynamic: No
+#    Data Type: numeric
+#    Default Value: 50331648 (48MB) (from MariaDB 10.0), 5242880 (5MB) (before MariaDB 10.0)
+#    Range: 1048576 to 512GB (1MB to 512GB) (>= MariaDB 10.0), 1048576 to 4294967295 (1MB to 4096MB) (<= MariaDB 5.5)
+#
+innodb_log_file_size=256M
+
+#
+#    Description: Size in bytes of the buffer for writing XtraDB/InnoDB log files to disk. Increasing this means larger transactions can run without needing to perform disk I/O before committing.
+#    Commandline: --innodb-log-buffer-size=#
+#    Scope: Global
+#    Dynamic: No
+#    Data Type: numeric
+#    Default Value: 16777216 (16MB) >= MariaDB 10.1.9, 8388608 (8MB) <= MariaDB 10.1.8
+#    Range: 262144 to 4294967295 (256KB to 4096MB)
+#
+innodb_log_buffer_size=64M

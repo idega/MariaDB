@@ -1,0 +1,32 @@
+# this is only for the mysqld standalone daemon
+[mysqld]
+
+#
+#   Description: If set to 0 (the default on Unix-based systems), table names and aliases and database names are compared in a case-sensitive manner. If set to 1 (the default on Windows), names are stored in lowercase and not compared in a case-sensitive manner. If set to 2 (the default on Mac OS X), names are stored as declared, but compared in lowercase.
+#   Commandline: --lower-case-table-names[=#]
+#   Scope: Global
+#   Dynamic: No
+#   Data Type: numeric
+#   Default Value: 0 (Unix), 1 (Windows), 2 (Mac OS X)
+#   Range: 0 to 2
+lower_case_table_names=1
+
+#
+#    Description: Default collation used by the server. This is set to the default collation for a given character set automatically when character_set_server is changed, but it can also be set manually. Defaults may be different on some systems, see for example Differences in MariaDB in Debian.
+#    Commandline: --collation-server=name
+#    Scope: Global, Session
+#    Dynamic: Yes
+#    Data Type: string
+#    Default Value: latin1_swedish_ci
+#
+collation_server=utf8mb4_general_ci
+
+#
+#    Description: Default character set used by the server. See character_set_database for character sets used by the default database. Defaults may be different on some systems, see for example Differences in MariaDB in Debian.
+#    Commandline: --character-set-server
+#    Scope: Global, Session
+#    Dynamic: Yes
+#    Data Type: string
+#    Default Value: latin1
+#
+character_set_server=utf8mb4
